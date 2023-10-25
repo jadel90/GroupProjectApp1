@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">GroupProjectApp</string>
+    <string name="password">password</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+
+
+    <string-array name="screen_names">
+        <item>appointment</item>
+        <item>insurance</item>
+        <item>ai</item>
+        <item>claim</item>
+        <item>messages</item>
+        <item>profile</item>
+        <item>rating</item>
+        <item>request help</item>
+        <item>support</item>
+        <item>gp details</item>
+        <item>health summary</item>
+    </string-array>
+
+
+    <string-array name="doctor_names">
+        <item>Doctor1</item>
+        <item>Doctor2</item>
+        <item>Doctor3</item>
+        <item>Doctor4</item>
+    </string-array>
+
+
+    <string-array name="doctor_info">
+        <item>info1</item>
+        <item>info2</item>
+        <item>info3</item>
+        <item>info4</item>
+    </string-array>
+
+</resources>
