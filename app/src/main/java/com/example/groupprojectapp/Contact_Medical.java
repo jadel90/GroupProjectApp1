@@ -25,7 +25,7 @@ public class Contact_Medical extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, MainActivity3.class);
+                Intent intent = new Intent(context, MainActivity4.class);
                 context.startActivity(intent);
                 Toast.makeText(context, "FAB Clicked", Toast.LENGTH_LONG).show();
             }
