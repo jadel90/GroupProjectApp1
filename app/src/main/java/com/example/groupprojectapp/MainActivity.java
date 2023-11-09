@@ -1,127 +1,58 @@
 package com.example.groupprojectapp;
 
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-
 public class MainActivity extends AppCompatActivity {
-
-
-    TextInputEditText editTextEmail, editTextPassword;
-    Button buttonLogin;
-    ProgressBar progressBar;
-
-    FirebaseAuth mAuth;
-    TextView textView;
-
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            Intent intent = new Intent(getApplicationContext(), MainActivity3.class);
-            startActivity(intent);
-            finish();
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        editTextEmail = findViewById(R.id.email);
-        editTextPassword = findViewById(R.id.password);
-        buttonLogin = findViewById(R.id.btn_login);
-        progressBar = findViewById(R.id.progressBar);
-        textView = findViewById(R.id.regNow);
-
-        mAuth = FirebaseAuth.getInstance();
+        // Find the buttons inside the layout after setContentView
+        Button sign_in = findViewById(R.id.textView4);
+        Button login = findViewById(R.id.textView8);
 
 
-        // register
-        textView.setOnClickListener(new View.OnClickListener() {
+        login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity2.class);
+                Log.d("MainActivity", "Login button clicked");
+                Intent intent = new Intent(MainActivity.this, MainActivity2.class);
                 startActivity(intent);
-                finish();
+
+                try {
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.e("MainActivity", "Failed to start MainActivity2", e);
+                }
             }
         });
 
 
-        // login
-       buttonLogin.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
+        sign_in.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(MainActivity.this, MainActivity3.class);
+                startActivity(intent1);
 
-
-               progressBar.setVisibility(View.GONE);
-               String email, password;
-               email = String.valueOf(editTextEmail.getText());
-               password = String.valueOf(editTextPassword.getText());
-
-               if (TextUtils.isEmpty(email)) {
-                   Toast.makeText(MainActivity.this, "Enter email", Toast.LENGTH_LONG).show();
-                   return;
-
-               }
-
-               if (TextUtils.isEmpty(password) || password.length() < 6) {
-                   editTextPassword.setError("Password should be at least 6 characters long.");
-                   Toast.makeText(MainActivity.this, "Enter password", Toast.LENGTH_LONG).show();
-                   return;
-               }
-
-               mAuth.signInWithEmailAndPassword(email, password)
-                       .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                           @Override
-                           public void onComplete(@NonNull Task<AuthResult> task) {
-                               progressBar.setVisibility(View.GONE);
-                               if (task.isSuccessful()) {
-                                   Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(getApplicationContext(), MainActivity3.class);
-                                    startActivity(intent);
-                                    finish();
-                               } else {
-
-                                   Toast.makeText(MainActivity.this, "Authentication failed.",
-                                           Toast.LENGTH_SHORT).show();
-
-                               }
-                           }
-                       });
+                try {
+                    startActivity(intent1);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.e("MainActivity", "Failed to start MainActivity3", e);
+                }
+            }
+        });
 
 
 
-
-
-
-
-
-
-           }
-       });
     }
 }
-
