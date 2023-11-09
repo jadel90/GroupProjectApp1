@@ -2,35 +2,45 @@ package com.example.groupprojectapp;
 
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import java.util.ArrayList;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class MainActivity3 extends AppCompatActivity {
 
 
-    RecyclerView recyclerView;
-    ArrayList<Health> arrayList = new ArrayList<>();
+    TextInputEditText editTextEmail, editTextPassword;
+    Button buttonSignUp;
 
-    FloatingActionButton fab;
+//    ActivityMainBinding binding;
+    String email, password, name;
+    int phone_number, dob;
+    FirebaseDatabase db;
+    DatabaseReference reference;
 
-    FirebaseAuth auth;
-    FirebaseUser user;
+    FirebaseAuth mAuth;
+
+
+    ProgressBar progressBar;
+
+
     TextView textView;
-    Button button;
 
 
     @Override
@@ -38,86 +48,98 @@ public class MainActivity3 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
 
-        textView = findViewById(R.id.tv_email);
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        fab = findViewById(R.id.fab);
 
-        auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
+        mAuth = FirebaseAuth.getInstance();
+        editTextEmail = findViewById(R.id.email);
+        editTextPassword = findViewById(R.id.password);
+        buttonSignUp = findViewById(R.id.btn_register);
+        progressBar = findViewById(R.id.progressBar);
+        textView = findViewById(R.id.loginNow);
 
-        if (user == null) {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
 
-        else {
-            textView.setText(user.getEmail());
-        }
 
-        button.setOnClickListener(new View.OnClickListener() {
+
+
+        // login
+        textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MainActivity2.class);
                 startActivity(intent);
-                finish();
+//                finish();
             }
         });
-        // Health Recycler
-
-        String [] health_name = getResources().getStringArray(R.array.screen_names);
-
-        //Health page
-        //11 screens.
-        arrayList.add(new Health(R.drawable.appointment, health_name[0]));
-        arrayList.add(new Health(R.drawable.insurance, health_name[1]));
-        arrayList.add(new Health(R.drawable.ai, health_name[2]));
-        arrayList.add(new Health(R.drawable.claim, health_name[3]));
-        arrayList.add(new Health(R.drawable.messages, health_name[4]));
-        arrayList.add(new Health(R.drawable.profile, health_name[5]));
-        arrayList.add(new Health(R.drawable.rating, health_name[6]));
-        arrayList.add(new Health(R.drawable.request_professional, health_name[7]));
-        arrayList.add(new Health(R.drawable.support, health_name[8]));
-        arrayList.add(new Health(R.drawable.gp_details, health_name[9]));
-        arrayList.add(new Health(R.drawable.health_summary, health_name[10]));
 
 
-
-        //Display Recycler View
-        HealthRecycler dogRecycler = new HealthRecycler(this, arrayList, fab);
-        recyclerView.setAdapter(dogRecycler);
-
-        FloatingActionButton fabCall = findViewById(R.id.fab2);
-
-        fabCall.setOnClickListener(new View.OnClickListener() {
+        // sign up button
+        buttonSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:" + "35383456789"));
-                startActivity(intent);
+            public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+                String email, password;
+                email = String.valueOf(editTextEmail.getText());
+                password = String.valueOf(editTextPassword.getText());
+
+
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(MainActivity3.this, "Enter email", Toast.LENGTH_LONG).show();
+                    return;
+
+
+                }
+
+
+                if (TextUtils.isEmpty(password) || password.length() < 6) {
+
+
+//                    editTextPassword.setError("Password should be at least 6 characters long.");
+                    Toast.makeText(MainActivity3.this, "Enter password", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+
+
+
+                mAuth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    progressBar.setVisibility(View.VISIBLE);
+                                    Toast.makeText(MainActivity3.this, "Account created.",
+                                            Toast.LENGTH_SHORT).show();
+
+
+
+
+
+
+                                }
+
+
+                                else {
+
+
+                                    Toast.makeText(MainActivity3.this, "Authentication failed.",
+                                            Toast.LENGTH_SHORT).show();
+
+
+                                }
+                            }
+                        });
+
+
             }
         });
 
 
 
 
-//        @Override
-//        public void onItemClick(Health health) {
-//            Intent intent;
-//            switch (health.getName()) { // Assuming getName() retrieves the title of the health object
-//                case "appointment":
-//                    intent = new Intent(this, AppointmentActivity.class);
-//                    startActivity(intent);
-//                    break;
-//                case "ai":
-//                    intent = new Intent(this, AiActivity.class);
-//                    startActivity(intent);
-//                    break;
+
+
+
 
     }
 }
-
 
 
