@@ -9,10 +9,11 @@
     android:padding="15dp"
     tools:context=".MainActivity2">
 
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sign Up"
+        android:text="Login"
         android:textSize="25sp"
         android:textStyle="bold"
         android:gravity="center"
@@ -21,17 +22,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
+
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/email"
             android:hint="email"/>
 
+
     </com.google.android.material.textfield.TextInputLayout>
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
+
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -40,7 +45,28 @@
             android:hint="Password (Min. 6 characters)"
             />
 
+
     </com.google.android.material.textfield.TextInputLayout>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_login"
+        android:text="@string/login"
+        />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Don't have account?"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:layout_marginTop="20sp"/>
+
+
+
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -48,16 +74,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_register"
-        android:text="@string/register"
-        />
+
+
 
     <TextView
-        android:id="@+id/loginNow"
-        android:text="Click to Login"
+        android:id="@+id/regNow"
+        android:text="Click to Register"
         android:textStyle="bold"
         android:textSize="20sp"
         android:gravity="center"
@@ -66,6 +88,37 @@
         android:layout_height="wrap_content"
         />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/others"
+        android:text="or sign in with"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"/>
+
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/socialicons"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:gravity="center"-->
+<!--        android:orientation="horizontal">-->
+
+
+    <ImageView
+        android:id="@+id/googleImage"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="20dp"
+        android:src="@drawable/google"/>
+
+
 
 </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
 
