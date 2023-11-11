@@ -21,26 +21,27 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+
 
 public class MainActivity3 extends AppCompatActivity {
 
 
-    TextInputEditText editTextEmail, editTextPassword;
+    TextInputEditText editTextEmail, editTextPassword,  editTextName, editTextPhoneNumber, editTextDOB;;
     Button buttonSignUp;
-
-//    ActivityMainBinding binding;
-    String email, password, name;
-    int phone_number, dob;
-    FirebaseDatabase db;
-    DatabaseReference reference;
-
-    FirebaseAuth mAuth;
-
 
     ProgressBar progressBar;
 
+    TextView textViewLogin;
 
-    TextView textView;
+
+
+
+    FirebaseAuth mAuth;
+    DatabaseReference databaseReference;
+
+    FirebaseDatabase firebaseDatabase;
+
 
 
     @Override
@@ -50,96 +51,108 @@ public class MainActivity3 extends AppCompatActivity {
 
 
         mAuth = FirebaseAuth.getInstance();
+
+        //new code:  save data to firebase
+        // Firebase Database reference
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
+
         editTextEmail = findViewById(R.id.email);
         editTextPassword = findViewById(R.id.password);
+        editTextName = findViewById(R.id.name);
+        editTextPhoneNumber = findViewById(R.id.phone_number);
+        editTextDOB = findViewById(R.id.dob);
+
         buttonSignUp = findViewById(R.id.btn_register);
+
         progressBar = findViewById(R.id.progressBar);
-        textView = findViewById(R.id.loginNow);
-
-
-
+        textViewLogin = findViewById(R.id.loginNow);
 
 
         // login
-        textView.setOnClickListener(new View.OnClickListener() {
+        // Navigate to login screen
+        textViewLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity2.class);
+                Intent intent = new Intent(MainActivity3.this, MainActivity2.class);
                 startActivity(intent);
-//                finish();
             }
         });
 
 
         // sign up button
+        // Handle sign up
         buttonSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                String email, password;
-                email = String.valueOf(editTextEmail.getText());
-                password = String.valueOf(editTextPassword.getText());
+
+                // new code
+                // Get the user input
+                String email = editTextEmail.getText().toString().trim();
+                String password = editTextPassword.getText().toString().trim();
+
+                // new code
+                String name = editTextName.getText().toString().trim();
+                String phoneNumber = editTextPhoneNumber.getText().toString().trim();
+                String dob = editTextDOB.getText().toString().trim();
 
 
+
+                // Check for valid inputs
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(MainActivity3.this, "Enter email", Toast.LENGTH_LONG).show();
+                    editTextEmail.setError("Enter email");
                     return;
-
-
                 }
 
 
                 if (TextUtils.isEmpty(password) || password.length() < 6) {
-
-
-//                    editTextPassword.setError("Password should be at least 6 characters long.");
-                    Toast.makeText(MainActivity3.this, "Enter password", Toast.LENGTH_LONG).show();
-                    return;
+                  Toast.makeText(MainActivity3.this, "Enter password", Toast.LENGTH_LONG).show();
+                  editTextPassword.setError("Password should be at least 6 characters");
+                  return;
                 }
 
+                progressBar.setVisibility(View.VISIBLE);
 
 
-
+                // Create user with email and password
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    progressBar.setVisibility(View.VISIBLE);
-                                    Toast.makeText(MainActivity3.this, "Account created.",
-                                            Toast.LENGTH_SHORT).show();
+                                    // If authentication is successful, save additional user data to Firebase database.
 
-
-
-
-
-
+                                    // new code
+                                    saveUserData(email, name, phoneNumber, dob);
+                                } else {
+                                    Toast.makeText(MainActivity3.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                                 }
-
-
-                                else {
-
-
-                                    Toast.makeText(MainActivity3.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
-
-
-                                }
-                            }
+                                progressBar.setVisibility(View.GONE);
+                            };
                         });
-
-
             }
+                private void saveUserData(String email, String name, String phoneNumber, String dob) {
+                    HashMap<String, Object> userDataMap = new HashMap<>();
+                    userDataMap.put("Email", email);
+                    userDataMap.put("Name", name);
+                    userDataMap.put("Phone Number", phoneNumber);
+                    userDataMap.put("DOB", dob);
+
+                    String currentUserId = mAuth.getCurrentUser().getUid();
+                    databaseReference.child(currentUserId).setValue(userDataMap)
+                            .addOnSuccessListener(aVoid -> {
+                                Toast.makeText(getApplicationContext(), "Account created and data added successfully", Toast.LENGTH_LONG).show();
+                                // Navigate to the next activity after sign up
+                                Intent intent = new Intent(MainActivity3.this, MainActivity4.class);
+                                startActivity(intent);
+                                finish();
+                            })
+                            .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Data save failed: " + e.getMessage(), Toast.LENGTH_LONG).show());
+                }
+
+
         });
-
-
-
-
-
-
-
-
     }
 }
-
 
