@@ -16,8 +16,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Find the buttons inside the layout after setContentView
-        Button sign_in = findViewById(R.id.textView4);
-        Button login = findViewById(R.id.textView8);
+        Button sign_in = findViewById(R.id.btn_sign_up);
+        Button login = findViewById(R.id.btn_login);
 
 
         login.setOnClickListener(new View.OnClickListener() {
