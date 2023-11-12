@@ -55,8 +55,7 @@ public class gpRecycler extends RecyclerView.Adapter<gpRecycler.ViewHolder> {
 
                 Toast.makeText(context, "Doctor" + position, Toast.LENGTH_LONG).show();
 
-//                Intent intent = new Intent(context, MainActivity2.class);
-                Intent intent = new Intent(view.getContext(), MainActivity4.class);
+                Intent intent = new Intent(context, DoctorDetailsActivity.class);
 
                 intent.putExtra("image", arrayList.get(position).getImage());
                 intent.putExtra("name", arrayList.get(position).getName());
@@ -67,21 +66,6 @@ public class gpRecycler extends RecyclerView.Adapter<gpRecycler.ViewHolder> {
             }
         });
 
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Handle FAB click action here
-
-
-                // Start a new activity
-                Intent intent = new Intent(context, gp_details.class);
-                context.startActivity(intent);
-
-                // For example, display a Toast
-                Toast.makeText(context, "FAB Clicked", Toast.LENGTH_LONG).show();
-            }
-        });
 
     }
 
