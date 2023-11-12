@@ -1,0 +1,93 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Display_Patient_Details">
+
+    <!-- Patient Details -->
+    <TextView
+        android:id="@+id/tvPatientName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Patient Name"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/tvPatientEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:layout_below="@id/tvPatientName"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/tvPatientDOB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date of Birth"
+        android:layout_below="@id/tvPatientEmail"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Insurance Details -->
+    <TextView
+        android:id="@+id/tvInsuranceCompany"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Insurance Company"
+        android:layout_below="@id/tvPatientDOB"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/tvPolicyNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Policy Number"
+        android:layout_below="@id/tvInsuranceCompany"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/tvExpiryDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Expiry Date"
+        android:layout_below="@id/tvPolicyNumber"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Rating and Reviews -->
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvExpiryDate"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/tvReviews"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reviews"
+        android:layout_below="@id/ratingBar"
+        android:layout_marginTop="8dp"/>
+
+    <!-- FloatingActionButton (FAB) -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/home_button"
+        app:srcCompat="@drawable/baseline_home_24" />
+
+</RelativeLayout>
+
+
+
+
+
+
