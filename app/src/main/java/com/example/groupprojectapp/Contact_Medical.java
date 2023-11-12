@@ -1,12 +1,12 @@
 package com.example.groupprojectapp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
@@ -40,21 +41,19 @@ public class Contact_Medical extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, MainActivity4.class);
-                context.startActivity(intent);
-                Toast.makeText(context, "FAB Clicked", Toast.LENGTH_LONG).show();
+                startActivity(intent);
+                Toast.makeText(Contact_Medical.this, "FAB Clicked", Toast.LENGTH_LONG).show();
             }
         });
 
-
-
-
         submitButton = findViewById(R.id.submitButton);
-
-
 
         editTextName = findViewById(R.id.editTextName);
         editTextPhone = findViewById(R.id.editTextPhone);
         editTextMessage = findViewById(R.id.editTextMessage);
+
+        // Initialize Firebase Database
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,10 +96,8 @@ public class Contact_Medical extends AppCompatActivity {
 
     private void clearFormFields() {
         // Clear the input fields after successful form submission
-        ((EditText)findViewById(R.id.editTextText11)).setText("");
-        ((EditText)findViewById(R.id.editTextPhone)).setText("");
-        ((EditText)findViewById(R.id.editTextTextMultiLine)).setText("");
+        editTextName.setText("");
+        editTextPhone.setText("");
+        editTextMessage.setText("");
     }
 }
-
-
