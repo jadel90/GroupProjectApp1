@@ -1,11 +1,7 @@
 package com.example.groupprojectapp;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,55 +13,40 @@ import java.util.ArrayList;
 
 public class gp_details extends AppCompatActivity {
 
-
     RecyclerView recyclerView1;
     ArrayList<GP> arrayList = new ArrayList<>();
-
     Context context;
-
     FloatingActionButton fab;
 
-
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gp_details);
 
-
         recyclerView1 = findViewById(R.id.recyclerView1);
         recyclerView1.setLayoutManager(new LinearLayoutManager(this));
         fab = findViewById(R.id.fab);
 
-
         // Health Recycler
+        // Get the doctor names and info from resources
+        String[] doctor_names = getResources().getStringArray(R.array.doctor_names);
+        String[] doctor_info = getResources().getStringArray(R.array.doctor_info);
 
-        String [] doctor_names = getResources().getStringArray(R.array.doctor_names);
-        String [] doctor_info = getResources().getStringArray(R.array.doctor_info);
+        
+//         Populate the GP array
+  
+        for (int i = 0; i < doctor_names.length; i++) {
+            int imageResourceId = getResources().getIdentifier("d" + (i + 1), "drawable", getPackageName());
+            arrayList.add(new GP(imageResourceId, doctor_names[i], doctor_info[i]));
+        }
 
-        //Health page
-        //11 screens.
-        arrayList.add(new GP(R.drawable.d1, doctor_names[0],doctor_info[0]));
-        arrayList.add(new GP(R.drawable.d2, doctor_names[1],doctor_info[1]));
-        arrayList.add(new GP(R.drawable.d3, doctor_names[2],doctor_info[2]));
-        arrayList.add(new GP(R.drawable.d4, doctor_names[3],doctor_info[4]));
-
-
-        //Display Recycler View
+        // Display Recycler View
+        // Set up the RecyclerView with the gpRecycler adapter
         gpRecycler gRecycler = new gpRecycler(this, arrayList, fab);
         recyclerView1.setAdapter(gRecycler);
-
-
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, MainActivity3.class);
-                context.startActivity(intent);
-                Toast.makeText(context, "FAB Clicked", Toast.LENGTH_LONG).show();
-            }
-        });
-
-
     }
 }
+
+
+
+
