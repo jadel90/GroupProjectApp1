@@ -4,21 +4,20 @@
     <string name="login">Login</string>
     <string name="register">Register</string>
 
-
     <string-array name="screen_names">
         <item>appointment</item>
         <item>insurance</item>
         <item>ai</item>
-        <item>claim</item>
-        <item>messages</item>
+        <item>medical history form</item>
+        <item>edit patient details</item>
         <item>profile</item>
         <item>rating</item>
-        <item>request help</item>
-        <item>support</item>
+        <item>Call Medical/ Call Insurance</item>
+        <item>Contact Insurance</item>
+        <item>Contact Medical</item>
         <item>gp details</item>
         <item>health summary</item>
     </string-array>
-
 
     <string-array name="doctor_names">
         <item>Doctor1</item>
@@ -27,7 +26,6 @@
         <item>Doctor4</item>
     </string-array>
 
-
     <string-array name="doctor_info">
         <item>info1</item>
         <item>info2</item>
@@ -35,4 +33,16 @@
         <item>info4</item>
     </string-array>
 
+    <!-- Google Web Client ID -->
+    <string name="default_web_client_id">1:855393373568:android:6a08d0cac2711a5ebc4565</string>
+
+    <string name="fab_description">Home button</string>
+    <string name="back_button">Back button</string>
+    <string name="buttonTime" type="id">buttonTime </string>
+    <string name="home_button">Home button</string>
+    <string name="edit_text_time_hint">time_hint</string>
+
+    <string name="button_contact_insurance" type="id">contact insurance button</string>
+    <string name="button_contact_medical" type="id">contact medical button</string>
+    <string name="doctor_image">Doctors profile image</string>
 </resources>
