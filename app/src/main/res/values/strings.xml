@@ -17,6 +17,9 @@
         <item>Contact Medical</item>
         <item>gp details</item>
         <item>health summary</item>
+        <item>asthma questionnaire</item>
+        <item>heart questionnaire</item>
+        <item>lung cancer questionnaire</item>
     </string-array>
 
     <string-array name="doctor_names">
