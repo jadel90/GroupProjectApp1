@@ -14,10 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Contact_Medical extends AppCompatActivity {
 
@@ -28,7 +29,9 @@ public class Contact_Medical extends AppCompatActivity {
 
     EditText editTextName, editTextPhone, editTextMessage;
 
-    DatabaseReference mDatabase; // Firebase database reference
+    // Firebase Firestore reference
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference medicalInquiriesRef = db.collection("contact_medical");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +55,6 @@ public class Contact_Medical extends AppCompatActivity {
         editTextPhone = findViewById(R.id.editTextPhone);
         editTextMessage = findViewById(R.id.editTextMessage);
 
-        // Initialize Firebase Database
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,24 +66,25 @@ public class Contact_Medical extends AppCompatActivity {
                 if (name.isEmpty() || phone.isEmpty() || message.isEmpty()) {
                     Toast.makeText(Contact_Medical.this, "Please fill out all fields.", Toast.LENGTH_LONG).show();
                 } else {
-                    // Create a HashMap with user's data
-                    HashMap<String, Object> medicalData = new HashMap<>();
+                    // Create a Map with user's data
+                    Map<String, Object> medicalData = new HashMap<>();
                     medicalData.put("name", name);
                     medicalData.put("phone", phone);
                     medicalData.put("message", message);
 
-                    // Save the medical inquiry data to Firebase
-                    saveMedicalInquiryToFirebase(medicalData);
+                    // Save the medical inquiry data to Firestore
+                    saveMedicalInquiryToFirestore(medicalData);
                 }
             }
         });
     }
 
-    private void saveMedicalInquiryToFirebase(HashMap<String, Object> medicalData) {
-        mDatabase.child("contact_medical").push().setValue(medicalData)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
+    private void saveMedicalInquiryToFirestore(Map<String, Object> medicalData) {
+        // Add the data to Firestore
+        medicalInquiriesRef.add(medicalData)
+                .addOnCompleteListener(new OnCompleteListener() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
+                    public void onComplete(@NonNull Task task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(Contact_Medical.this, "Medical inquiry submitted successfully.", Toast.LENGTH_LONG).show();
                             clearFormFields();
