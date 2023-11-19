@@ -6,6 +6,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -23,6 +25,8 @@ import java.util.Map;
 public class MainActivity3 extends AppCompatActivity {
 
     TextInputEditText editTextEmail, editTextPassword, editTextName, editTextPhoneNumber, editTextDOB;
+    RadioGroup radioGroupGender;
+    RadioButton radioFemale, radioMale;
     Button buttonSignUp;
     ProgressBar progressBar;
     TextView textViewLogin;
@@ -43,6 +47,10 @@ public class MainActivity3 extends AppCompatActivity {
         editTextName = findViewById(R.id.name);
         editTextPhoneNumber = findViewById(R.id.phone_number);
         editTextDOB = findViewById(R.id.dob);
+
+        radioGroupGender = findViewById(R.id.radio_group_gender);
+        radioFemale = findViewById(R.id.radio_female);
+        radioMale = findViewById(R.id.radio_male);
 
         buttonSignUp = findViewById(R.id.btn_register);
         progressBar = findViewById(R.id.progressBar);
@@ -67,6 +75,7 @@ public class MainActivity3 extends AppCompatActivity {
                 String name = editTextName.getText().toString().trim();
                 String phoneNumber = editTextPhoneNumber.getText().toString().trim();
                 String dob = editTextDOB.getText().toString().trim();
+                String gender = getSelectedGender();
 
                 // Check for valid inputs
                 if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
@@ -79,6 +88,11 @@ public class MainActivity3 extends AppCompatActivity {
                     return;
                 }
 
+                if (TextUtils.isEmpty(gender)) {
+                    Toast.makeText(MainActivity3.this, "Please select a gender", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 progressBar.setVisibility(View.VISIBLE);
 
                 // Create user with email and password
@@ -88,7 +102,7 @@ public class MainActivity3 extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     // If authentication is successful, save additional user data to Cloud Firestore.
-                                    saveUserData(email, name, phoneNumber, dob);
+                                    saveUserData(email, name, phoneNumber, dob, gender);
                                 } else {
                                     Toast.makeText(MainActivity3.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                                 }
@@ -97,7 +111,18 @@ public class MainActivity3 extends AppCompatActivity {
                         });
             }
 
-            private void saveUserData(String email, String name, String phoneNumber, String dob) {
+            private String getSelectedGender() {
+                int selectedId = radioGroupGender.getCheckedRadioButtonId();
+                if (selectedId == R.id.radio_female) {
+                    return "Female";
+                } else if (selectedId == R.id.radio_male) {
+                    return "Male";
+                } else {
+                    return "";
+                }
+            }
+
+            private void saveUserData(String email, String name, String phoneNumber, String dob, String gender) {
                 String currentUserId = mAuth.getCurrentUser().getUid();
 
                 // Create a map with user data
@@ -106,6 +131,7 @@ public class MainActivity3 extends AppCompatActivity {
                 user.put("Name", name);
                 user.put("Phone Number", phoneNumber);
                 user.put("DOB", dob);
+                user.put("Gender", gender);
 
                 // Add user data to Cloud Firestore
                 db.collection("users")
@@ -129,3 +155,11 @@ public class MainActivity3 extends AppCompatActivity {
         });
     }
 }
+
+
+
+
+
+
+
+
