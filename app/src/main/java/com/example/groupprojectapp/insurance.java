@@ -9,8 +9,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class insurance extends AppCompatActivity {
 
@@ -19,15 +22,14 @@ public class insurance extends AppCompatActivity {
     EditText insuranceCompanyEditText, policyNumberEditText, expiryDateEditText;
     Button submitButton;
 
-    DatabaseReference databaseReference;
+    // Firebase Firestore reference
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference insuranceDetailsRef = db.collection("insurance_details");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insurance);
-
-        // Initialize Firebase database reference
-        databaseReference = FirebaseDatabase.getInstance().getReference("insurance details");
 
         insuranceCompanyEditText = findViewById(R.id.editTextText6);
         policyNumberEditText = findViewById(R.id.editTextText8);
@@ -66,21 +68,26 @@ public class insurance extends AppCompatActivity {
             return;
         }
 
-        // Create a unique key for each insurance entry
-        String insuranceId = databaseReference.push().getKey();
+        // Create a Map to store the insurance details
+        Map<String, Object> insuranceData = new HashMap<>();
+        insuranceData.put("insuranceCompany", insuranceCompany);
+        insuranceData.put("policyNumber", policyNumber);
+        insuranceData.put("expiryDate", expiryDate);
 
-        // Create an InsuranceDetails object to store the data
-        InsuranceDetails insuranceDetails = new InsuranceDetails(insuranceCompany, policyNumber, expiryDate);
+        // Add the data to Firestore
+        insuranceDetailsRef.add(insuranceData)
+                .addOnSuccessListener(documentReference -> {
+                    // Clear the input fields
+                    insuranceCompanyEditText.setText("");
+                    policyNumberEditText.setText("");
+                    expiryDateEditText.setText("");
 
-        // Save the data to Firebase under "insurance details" collection
-        databaseReference.child(insuranceId).setValue(insuranceDetails);
-
-        // Clear the input fields
-        insuranceCompanyEditText.setText("");
-        policyNumberEditText.setText("");
-        expiryDateEditText.setText("");
-
-        // Show a success message
-        Toast.makeText(this, "Insurance details saved successfully", Toast.LENGTH_SHORT).show();
+                    // Show a success message
+                    Toast.makeText(this, "Insurance details saved successfully", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    // Handle failure
+                    Toast.makeText(this, "Failed to save insurance details", Toast.LENGTH_SHORT).show();
+                });
     }
 }
