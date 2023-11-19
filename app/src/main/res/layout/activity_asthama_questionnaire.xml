@@ -1,1 +1,433 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".Asthma_Questionnaire">
+
+    <!-- Asthma Questionnaire TextView -->
+    <TextView
+        android:id="@+id/asthma_questionnaire"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Asthma Questionnaire"
+        android:textSize="18sp"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <!-- Question: Do you have asthma? -->
+    <LinearLayout
+        android:id="@+id/linearLayoutAsthma"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp">
+
+        <TextView
+            android:id="@+id/textViewAsthma"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Do you have asthma?"
+            android:textSize="14sp"
+            android:layout_gravity="center_vertical" />
+
+        <RadioButton
+            android:id="@+id/radioButtonYesAsthma"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yes"
+            android:textSize="14sp"/>
+
+        <RadioButton
+            android:id="@+id/radioButtonNoAsthma"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No"
+            android:textSize="14sp"/>
+    </LinearLayout>
+
+    <!-- Question: Do you have breathing difficulty? -->
+    <LinearLayout
+        android:id="@+id/linearLayoutBreathing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutAsthma"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Do you have difficulty breathing?"
+            android:textSize="14sp"
+            android:layout_gravity="center_vertical" />
+
+        <RadioButton
+            android:id="@+id/radioButtonYesDB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yes" />
+
+        <RadioButton
+            android:id="@+id/radioButtonNoDB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No" />
+    </LinearLayout>
+
+    <!-- Question: Do you have dry cough? -->
+    <LinearLayout
+        android:id="@+id/linearLayoutDryCough"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutBreathing"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Do you have dry cough?"
+            android:textSize="14sp"
+            android:layout_gravity="center_vertical" />
+
+        <RadioButton
+            android:id="@+id/radioButtonYesDC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yes"
+            android:textSize="14sp"/>
+
+        <RadioButton
+            android:id="@+id/radioButtonNoDC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No"
+            android:textSize="14sp"/>
+    </LinearLayout>
+
+    <!-- Question: Do you have nasal congestion? -->
+    <LinearLayout
+        android:id="@+id/linearLayoutNasalCongestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutDryCough"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Do you have nasal congestion?"
+            android:textSize="14sp"
+            android:layout_gravity="center_vertical" />
+
+        <RadioButton
+            android:id="@+id/radioButtonYesNC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yes"
+            android:textSize="14sp"/>
+
+        <RadioButton
+            android:id="@+id/radioButtonNoNC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No"
+            android:textSize="14sp"/>
+    </LinearLayout>
+
+    <!-- Question: Do you have runny nose? -->
+    <LinearLayout
+        android:id="@+id/linearLayoutRunnyNose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutNasalCongestion"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Do you have a runny nose?"
+            android:textSize="14sp"
+            android:layout_gravity="center_vertical" />
+
+        <RadioButton
+            android:id="@+id/radioButtonYesRN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yes"
+            android:textSize="14sp"/>
+
+        <RadioButton
+            android:id="@+id/radioButtonNoRN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No"
+            android:textSize="14sp"/>
+    </LinearLayout>
+
+    <!-- Question: Do you have a sore throat? -->
+    <LinearLayout
+        android:id="@+id/linearLayoutSoreThroat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutRunnyNose"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Do you have a sore throat?"
+            android:textSize="14sp"
+            android:layout_gravity="center_vertical" />
+
+        <RadioButton
+            android:id="@+id/radioButtonYesST"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yes"
+            android:textSize="14sp"/>
+
+        <RadioButton
+            android:id="@+id/radioButtonNoST"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No"
+            android:textSize="14sp"/>
+    </LinearLayout>
+
+    <!-- Question: Are you feeling tired? -->
+    <LinearLayout
+        android:id="@+id/linearLayoutTiredness"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSoreThroat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Are you feeling tired?"
+            android:textSize="14sp"
+            android:layout_gravity="center_vertical" />
+
+        <RadioButton
+            android:id="@+id/radioButtonYesTiredness"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yes"
+            android:textSize="14sp"/>
+
+        <RadioButton
+            android:id="@+id/radioButtonNoTiredness"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No"
+            android:textSize="14sp"/>
+    </LinearLayout>
+
+
+    <!-- Age Range Questions -->
+    <LinearLayout
+        android:id="@+id/linearLayoutAgeRange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutTiredness"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:id="@+id/age_range_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Age 0 to 9"
+            android:textSize="14sp"
+            android:layout_gravity="center_vertical" />
+
+        <Spinner
+            android:id="@+id/age_range_spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/age_range_question"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:spinnerMode="dropdown"
+            android:textSize="14sp"/>
+    </LinearLayout>
+
+
+    <!-- Age Range: 10 to 19 -->
+    <LinearLayout
+        android:id="@+id/linearLayoutAge10to19"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutAgeRange"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:id="@+id/age_10_19_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Age 10 to 19"
+            android:textSize="14sp"
+            android:layout_gravity="center_vertical" />
+
+        <Spinner
+            android:id="@+id/age_10_19_spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/age_10_19_question"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:spinnerMode="dropdown"
+            android:textSize="14sp"/>
+    </LinearLayout>
+
+    <!-- Age Range: 20 to 24 -->
+    <LinearLayout
+        android:id="@+id/linearLayoutAge20to24"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutAge10to19"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:id="@+id/age_20_24_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Age 20 to 24"
+            android:textSize="14sp"
+            android:layout_gravity="center_vertical" />
+
+        <Spinner
+            android:id="@+id/age_20_24_spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/age_20_24_question"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:spinnerMode="dropdown"
+            android:textSize="14sp"/>
+    </LinearLayout>
+
+    <!-- Age Range: 25 to 59 -->
+    <LinearLayout
+        android:id="@+id/linearLayoutAge25to59"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutAge20to24"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:id="@+id/age_25_59_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Age 25 to 59"
+            android:textSize="14sp"
+            android:layout_gravity="center_vertical" />
+
+        <Spinner
+            android:id="@+id/age_25_59_spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/age_25_59_question"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:spinnerMode="dropdown"
+            android:textSize="14sp"/>
+    </LinearLayout>
+
+    <!-- Age Range: Over 60 -->
+    <LinearLayout
+        android:id="@+id/linearLayoutAgeOver60"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutAge25to59"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:id="@+id/age_over_60_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Age over 60"
+            android:textSize="14sp"
+            android:layout_gravity="center_vertical" />
+
+        <Spinner
+            android:id="@+id/age_over_60_spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/age_over_60_question"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:spinnerMode="dropdown"
+            android:textSize="14sp"/>
+    </LinearLayout
+
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="122dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="4dp"
+        android:text="Submit"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutAgeOver60" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+
+
 
