@@ -6,49 +6,40 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import java.util.HashMap;
+import java.util.Map;
 
 public class patient_details extends AppCompatActivity {
 
     Context context;
     FloatingActionButton fab;
-
-    DatabaseReference databaseReference;
     EditText editTextEmail, editTextPhoneNumber, editTextAddress;
+    Button buttonEdit, buttonSave, buttonUpdate;
 
+    // Firebase Firestore reference
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference patientsRef = db.collection("patients");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_details);
 
-
-        fab = findViewById(R.id.fab);
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, MainActivity4.class);
-                context.startActivity(intent);
-            }
-        });
-
-        // Initialize Firebase Database reference
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("patients");
-
-        // Initialize UI components
         editTextEmail = findViewById(R.id.editTextText8);
         editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber);
         editTextAddress = findViewById(R.id.editTextTextPostalAddress);
 
-        // Add a click listener for the "Edit" button
-        Button buttonEdit = findViewById(R.id.buttonEdit);
+        buttonEdit = findViewById(R.id.buttonEdit);
+        buttonSave = findViewById(R.id.buttonSave);
+        buttonUpdate = findViewById(R.id.buttonUpdate);
+
         buttonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,200 +50,110 @@ public class patient_details extends AppCompatActivity {
             }
         });
 
-        // Add a click listener for the "Save" button
-        Button buttonSave = findViewById(R.id.buttonSave);
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Get the values from EditText fields
-                String email = editTextEmail.getText().toString();
-                String phoneNumber = editTextPhoneNumber.getText().toString();
-                String address = editTextAddress.getText().toString();
-
-                // Create an InsuranceDetails object (you should obtain these values from user input)
-                String insuranceCompany = "YourInsuranceCompany"; // Replace with actual value
-                String policyNumber = "YourPolicyNumber"; // Replace with actual value
-                String expiryDate = "YourExpiryDate"; // Replace with actual value
-
-                // Create a Patient object with InsuranceDetails
-                Patient patient = new Patient(email, phoneNumber, address);
-
-                // Push the patient data to Firebase Realtime Database
-                databaseReference.push().setValue(patient);
-
-                // Disable editing of EditText fields
-                editTextEmail.setEnabled(false);
-                editTextPhoneNumber.setEnabled(false);
-                editTextAddress.setEnabled(false);
-
-                // Clear EditText fields
-                editTextEmail.setText("");
-                editTextPhoneNumber.setText("");
-                editTextAddress.setText("");
+                savePatientDetails();
             }
         });
 
-        // Add a click listener for the "Update" button
-        Button buttonUpdate = findViewById(R.id.buttonUpdate);
         buttonUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Get the values from EditText fields
-                String email = editTextEmail.getText().toString();
-                String phoneNumber = editTextPhoneNumber.getText().toString();
-                String address = editTextAddress.getText().toString();
+                updatePatientDetails();
+            }
+        });
 
-                // Create a Patient object with InsuranceDetails (you should obtain these values from user input)
-                String insuranceCompany = "YourUpdatedInsuranceCompany"; // Replace with actual value
-                String expiryDate = "YourUpdatedExpiryDate"; // Replace with actual value
-
-                // Create a Patient object with updated InsuranceDetails
-                Patient patient = new Patient(email, phoneNumber, address);
-
-                // Push the updated patient data to Firebase Realtime Database
-                databaseReference.push().setValue(patient);
-
-                // Disable editing of EditText fields
-                editTextEmail.setEnabled(false);
-                editTextPhoneNumber.setEnabled(false);
-                editTextAddress.setEnabled(false);
-
-                // Clear EditText fields
-                editTextEmail.setText("");
-                editTextPhoneNumber.setText("");
-                editTextAddress.setText("");
+        // Initialize the fab button and set its click listener
+        fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Start MainActivity4 when FAB is clicked
+                Intent intent = new Intent(patient_details.this, MainActivity4.class);
+                startActivity(intent);
+                Toast.makeText(patient_details.this, "FAB Clicked", Toast.LENGTH_LONG).show();
             }
         });
     }
+
+    private void savePatientDetails() {
+        String email = editTextEmail.getText().toString().trim();
+        String phoneNumber = editTextPhoneNumber.getText().toString().trim();
+        String address = editTextAddress.getText().toString().trim();
+
+        // Check if any field is empty
+        if (email.isEmpty() || phoneNumber.isEmpty() || address.isEmpty()) {
+            // Handle empty fields
+            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Create a Map to store the patient details
+        Map<String, Object> patientData = new HashMap<>();
+        patientData.put("email", email);
+        patientData.put("phoneNumber", phoneNumber);
+        patientData.put("address", address);
+
+        // Add the data to Firestore
+        patientsRef.add(patientData)
+                .addOnSuccessListener(documentReference -> {
+                    // Disable editing of EditText fields
+                    editTextEmail.setEnabled(false);
+                    editTextPhoneNumber.setEnabled(false);
+                    editTextAddress.setEnabled(false);
+
+                    // Clear EditText fields
+                    editTextEmail.setText("");
+                    editTextPhoneNumber.setText("");
+                    editTextAddress.setText("");
+
+                    // Show a success message
+                    Toast.makeText(this, "Patient details saved successfully", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    // Handle failure
+                    Toast.makeText(this, "Failed to save patient details", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void updatePatientDetails() {
+        String email = editTextEmail.getText().toString().trim();
+        String phoneNumber = editTextPhoneNumber.getText().toString().trim();
+        String address = editTextAddress.getText().toString().trim();
+
+        // Check if any field is empty
+        if (email.isEmpty() || phoneNumber.isEmpty() || address.isEmpty()) {
+            // Handle empty fields
+            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Create a Map to store the updated patient details
+        Map<String, Object> updatedPatientData = new HashMap<>();
+        updatedPatientData.put("email", email);
+        updatedPatientData.put("phoneNumber", phoneNumber);
+        updatedPatientData.put("address", address);
+
+        // Add the updated data to Firestore
+        patientsRef.add(updatedPatientData)
+                .addOnSuccessListener(documentReference -> {
+                    // Disable editing of EditText fields
+                    editTextEmail.setEnabled(false);
+                    editTextPhoneNumber.setEnabled(false);
+                    editTextAddress.setEnabled(false);
+
+                    // Clear EditText fields
+                    editTextEmail.setText("");
+                    editTextPhoneNumber.setText("");
+                    editTextAddress.setText("");
+
+                    // Show a success message
+                    Toast.makeText(this, "Patient details updated successfully", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    // Handle failure
+                    Toast.makeText(this, "Failed to update patient details", Toast.LENGTH_SHORT).show();
+                });
+    }
 }
-
-
-
-
-
-
-
-//package com.example.groupprojectapp;
-//
-//import android.content.Context;
-//import android.content.Intent;
-//import android.os.Bundle;
-//import android.view.View;
-//import android.widget.Button;
-//import android.widget.EditText;
-//
-//import androidx.appcompat.app.AppCompatActivity;
-//
-//import com.google.android.material.floatingactionbutton.FloatingActionButton;
-//import com.google.firebase.database.DatabaseReference;
-//import com.google.firebase.database.FirebaseDatabase;
-//
-//import com.example.groupprojectapp.InsuranceDetails;
-//
-//
-//public class patient_details extends AppCompatActivity {
-//
-//    Context context;
-//    FloatingActionButton fab;
-//
-//    DatabaseReference databaseReference;
-//    EditText editTextEmail, editTextPhoneNumber, editTextAddress;
-//
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_patient_details);
-//
-//
-//        fab = findViewById(R.id.fab);
-//
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(context, MainActivity4.class);
-//                context.startActivity(intent);
-//            }
-//        });
-//
-//        // Initialize Firebase Database reference
-//        databaseReference = FirebaseDatabase.getInstance().getReference().child("patients");
-//
-//        // Initialize UI components
-//        editTextEmail = findViewById(R.id.editTextText8);
-//        editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber);
-//        editTextAddress = findViewById(R.id.editTextTextPostalAddress);
-//
-//        // Add a click listener for the "Edit" button
-//        Button buttonEdit = findViewById(R.id.buttonEdit);
-//        buttonEdit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Enable editing of EditText fields
-//                editTextEmail.setEnabled(true);
-//                editTextPhoneNumber.setEnabled(true);
-//                editTextAddress.setEnabled(true);
-//            }
-//        });
-//
-//        // Add a click listener for the "Save" button
-//        Button buttonSave = findViewById(R.id.buttonSave);
-//        buttonSave.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Get the values from EditText fields
-//                String email = editTextEmail.getText().toString();
-//                String phoneNumber = editTextPhoneNumber.getText().toString();
-//                String address = editTextAddress.getText().toString();
-//
-//                // Create a Patient object
-////
-//                Patient patient = new Patient(email, phoneNumber, address, new InsuranceDetails(insuranceCompany, policyNumber, expiryDate));
-//
-//                // Push the patient data to Firebase Realtime Database
-//                databaseReference.push().setValue(patient);
-//
-//                // Disable editing of EditText fields
-//                editTextEmail.setEnabled(false);
-//                editTextPhoneNumber.setEnabled(false);
-//                editTextAddress.setEnabled(false);
-//
-//                // Clear EditText fields
-//                editTextEmail.setText("");
-//                editTextPhoneNumber.setText("");
-//                editTextAddress.setText("");
-//
-//
-//
-//        // Add a click listener for the "Update" button
-//        Button buttonUpdate = findViewById(R.id.buttonUpdate);
-//        buttonUpdate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Get the values from EditText fields
-//                String email = editTextEmail.getText().toString();
-//                String phoneNumber = editTextPhoneNumber.getText().toString();
-//                String address = editTextAddress.getText().toString();
-//
-//                // Create a Patient object
-//                Patient patient = new Patient(email, phoneNumber, address, new InsuranceDetails(insuranceCompany, policyNumber, expiryDate));
-//
-//                // Push the patient data to Firebase Realtime Database (update)
-//                databaseReference.push().setValue(patient);
-//
-//                // Disable editing of EditText fields
-//                editTextEmail.setEnabled(false);
-//                editTextPhoneNumber.setEnabled(false);
-//                editTextAddress.setEnabled(false);
-//
-//                // Clear EditText fields
-//                editTextEmail.setText("");
-//                editTextPhoneNumber.setText("");
-//                editTextAddress.setText("");
-//            }
-//        });
-//
-//
-//
-//    }
-//}
