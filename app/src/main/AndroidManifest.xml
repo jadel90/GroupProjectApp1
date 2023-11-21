@@ -12,23 +12,38 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GroupProjectApp"
         tools:targetApi="31">
-        
+        <activity
+            android:name=".ChatActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Lung_Cancer_Questionnaire"
+            android:exported="false" />
+        <activity
+            android:name=".Heart_Disease_Questionnaire"
+            android:exported="false" />
+        <activity
+            android:name=".Questionnaire_Activity"
+            android:exported="true" />
 
+
+        <activity
+            android:name=".Asthma_Questionnaire"
+            android:exported="false" />
         <activity
             android:name=".DoctorDetailsActivity"
             android:exported="true" />
         <activity
             android:name=".Dial"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".Display_Patient_Details"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".Payment"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".rating"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".gp_details"
             android:exported="true" />
@@ -47,9 +62,9 @@
         <activity
             android:name=".appointment"
             android:exported="true" />
-         <activity
-         android:name=".MainActivity4"
-         android:exported="true" />
+        <activity
+            android:name=".MainActivity4"
+            android:exported="true" />
         <activity
             android:name=".MainActivity3"
             android:exported="true" />
